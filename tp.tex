@@ -1,0 +1,1979 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath,amssymb,amsfonts,mathtools}
+\usepackage{geometry}
+\geometry{top=2cm, bottom=2cm, left=2.5cm, right=2cm}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}[section]
+\usepackage{mathrsfs}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+
+
+\begin{document}
+
+\title{Домашняя работа по теории вероятностей\\ Вариант №5}
+\author{Студент: Виноградов Илья \quad Группа: СКБ242}
+\maketitle
+
+\section{Распределения}
+\begin{itemize}
+    \item \textbf{Дискретное распределение $\mathscr{L}_d$ (№5):} Геометрическое распределение $\xi \sim \text{Geom}(\theta)$
+    \[
+    P(\xi = x) = \theta (1-\theta)^{x-1}, \quad x \in \mathbb{N}, \quad 0 < \theta < 1
+    \]
+    \item \textbf{Непрерывное распределение $\mathscr{L}_c$ (№5):} Треугольное распределение (Симпсона) $\xi \sim \text{Triang}(0,1,\theta)$, $\theta \in (0,1)$
+    \[
+    f_\xi(x) = 
+    \begin{cases}
+        \dfrac{2x}{\theta}, & 0 \le x \le \theta,\\[8pt]
+        \dfrac{2(1-x)}{1-\theta}, & \theta < x \le 1,\\[8pt]
+        0, & \text{иначе}
+    \end{cases}
+    \]
+\end{itemize}
+
+\renewcommand{\thesection}{1.\arabic{section}}
+\setcounter{section}{0}
+\section{Основные понятия и определения}
+
+\begin{definition}[Функция распределения]
+Функция $F(x)$ называется \textbf{функцией распределения}, если выполнены следующие условия:
+\begin{enumerate}[label=\arabic*.]
+    \item $F(x)$ не убывает.
+    \item $F(x)$ непрерывна слева в каждой точке $x \in \mathbb{R}$.
+    \item $F(-\infty) = 0$, $F(+\infty) = 1$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Квантиль распредления уровня $\gamma$]
+Число $t_{\gamma}$ называется \textbf{квантилем распределения уровня $\gamma$ для с.в $\xi$}, если {$F_\xi (t_\gamma) = \gamma$} и $t_{\gamma}$:
+\begin{enumerate}[label=\arabic*.]
+    \item $F_{\xi}(t_{\gamma}) \le \gamma$
+    \item $P(\xi > t_{\gamma}) \ge 1 - \gamma$
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Медиана распределения]
+\textbf{Медианой распределения} называется квантиль распределения уровня $\frac{1}{2}$
+\end{definition}
+
+\begin{definition}[Математическое ожидание]
+    Математическое ожидание случайной величины введем в три этапа
+    \begin{enumerate}[label=\arabic*.]
+        \item \textbf{Для простой случайной величины}
+        Математическим ожиданием простой случайной величины $\xi = \sum_{i=1}^{n} x_i I(A_i)$ будем обозначать $M\xi$ и называть число, равное
+        \[
+        M\xi = \int_{\Omega} \xi(\omega) \, P(d\omega) := \sum_{i=1}^{n} x_i P(A_i)
+        \]
+        
+        \item \textbf{Для неотрицательной случайной величины}
+        Пусть $\xi \ge 0$ — произвольная неотрицательная случайная величина, определённая на $(\Omega, \mathcal{F}, P)$
+        Пусть $\xi_n$ — последовательность простых случайных величин такая, что для произвольного $\omega \in \Omega$ последовательность $\xi_n(\omega)$ монотонно сходится к $\xi(\omega)$:
+        \[
+        \xi_n(\omega) \uparrow \xi(\omega), \quad n \to \infty
+        \]
+        Тогда \textbf{математическим ожиданием} случайной величины $\xi$ называется следующий предел:
+        \[
+        M\xi = \lim_{n \to \infty} M\xi_n
+        \]
+        
+        \item \textbf{Для произвольной случайной величины}
+        Пусть $\xi$ — произвольная случайная величина. Её можно представить в виде суммы неотрицательных случайных величин:
+        \[
+        \xi(\omega) = \xi \cdot I(\xi \ge 0) + \xi \cdot I(\xi < 0)
+        \]
+        Определим следующие случайные величины:
+        \[
+        \xi^+ = \xi \cdot I(\xi \ge 0), \qquad \xi^- = -\xi \cdot I(\xi < 0)
+        \]
+        Тогда $\xi^+$ и $\xi^-$ — неотрицательные случайные величины, для которых определено математическое ожидание (интеграл Лебега):
+        \[
+        I^+ = M\xi^+, \qquad I^- = M\xi^-
+        \]
+        
+        Если $I^+, I^- < \infty$, то по определению математическое ожидание (интеграл Лебега) случайной величины $\xi$ равно
+        \[
+        M\xi = I^+ - I^-
+        \]
+        
+        Если хотя бы один из интегралов $I^+$ или $I^-$ расходится, то говорят, что математическое ожидание не определено
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[Математическое ожидание функции от случайной величины]
+Пусть $g(x)$ --- измеримая функция на $\mathbb{R}$. Величина $Mg(\xi)$ называется \textbf{математическим ожиданием} функции $g$ от случайной величины $\xi$
+\end{definition}
+
+\begin{definition}[Момент $n$-го порядка]
+Пусть $g(x) = x^n$. Величина $M\xi^n$ называется \textbf{моментом $n$-го порядка}
+\begin{itemize}
+    \item Для дискретных случайных величин:
+    \[
+    M\xi^n = \sum_{k} x_k^n \cdot P(\xi = x_k)
+    \]
+    \item Для абсолютно непрерывных случайных величин:
+    \[
+    M\xi^n = \int_{\mathbb{R}} x^n p_\xi(x)\,dx
+    \]
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Центральный момент $n$-го порядка]
+Пусть $g(x) = (x - \mathbb{E}\xi)^n$. Величина $M(\xi - M\xi)^n$ называется \textbf{центральным моментом $n$-го порядка}
+\begin{itemize}
+    \item Для дискретной случайной величины:
+    \[
+    M(\xi - M\xi)^n = \sum_{k} (x_k - M\xi)^n \cdot P(\xi = x_k)
+    \]
+    \item Для абсолютно непрерывной случайной величины:
+    \[
+    M(\xi - M\xi)^n = \int_{\mathbb{R}} (x - M\xi)^n \cdot p_\xi(x)\,dx
+    \]
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Дисперсия]
+Центральный момент второго порядка называется \textbf{дисперсией} и обозначается $D\xi$ или $\sigma^2(\xi)$:
+\[
+D\xi = \sigma^2(\xi) = M(\xi - M\xi)^2
+\]
+\end{definition}
+
+\begin{definition}[Факториальный момент $k$-го порядка]
+Величины
+\[
+M\nu_{[k]} = M\bigl[\nu(\nu-1)\dots(\nu-k+1)\bigr]
+\]
+называются \textbf{факториальными моментами} целочисленной случайной величины $\nu$
+\end{definition}
+
+\begin{definition}[Мода распределения]
+\textbf{Модой распределения} называется такое значение случайной величины, в котором достигается максимум вероятности (или плотности):
+\begin{itemize}
+    \item для абсолютно непрерывной случайной величины: точка максимума плотности $f_\xi(x)$;
+    \item для дискретной случайной величины: значение $x_i$, для которого $P(\xi = x_i)$ максимальна
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Производящая функция]
+\textbf{Производящей функцией} $f_\nu(s)$ распределения случайной величины $\nu$, принимающей целые неотрицательные значения, называется степенной ряд (для $|s| < 1$):
+\[
+f_\nu(s) = Ms^\nu = \sum_{r=0}^{\infty} P(\nu = r)\, s^r
+\]
+\end{definition}
+
+\begin{definition}[Характеристическая функция]
+\textbf{Характеристической функцией} случайной величины $\xi$, принимающей действительные значения, называется функция
+\[
+f(t) = Me^{it\xi}, \quad t \in \mathbb{R}.
+\]
+В частности:
+\begin{itemize}
+    \item для случайной величины $\xi$ с дискретным распределением:
+    \[
+    f(t) = \sum_{k} e^{it x_k} P(\xi = x_k);
+    \]
+    \item для случайной величины $\xi$, распределение которой имеет плотность $p(x)$:
+    \[
+    f(t) = \int_{\mathbb{R}} e^{itx} p(x)\,dx;
+    \]
+    \item в общем случае для случайной величины $\xi$ с функцией распределения $F(x) = P(\xi \le x)$:
+    \[
+    f(t) = \int_{\Omega} e^{it\xi(\omega)} P(d\omega) = \int_{\mathbb{R}} e^{itx} dF(x)
+    \]
+\end{itemize}
+\end{definition}
+
+\section{Примеры и взаимосвязи}
+
+\subsection{Геометрическое распределение $\mathscr{L}_d=\mathrm{Geom}(\theta)$}
+
+Пусть случайная величина $\xi$ имеет геометрическое распределение с параметром
+$\theta \in (0,1)$:
+\[
+P(\xi = k) = (1-\theta)^{k-1}\theta,
+\qquad k=1,2,\dots
+\]
+
+\textbf{Эксперимент}
+Пользователь вводит пароль в систему. Вероятность того, что пароль введён правильно с одной попытки, равна $\theta$. Попытки независимы
+
+Случайная величина $\xi$ - номер попытки, на которой пользователь впервые ввёл пароль правильно
+
+\textbf{Обоснование}
+Событие $\{\xi=k\}$ означает:
+\begin{itemize}
+    \item первые $k-1$ попыток были неверными;
+    \item на $k$-й попытке пароль введён правильно
+\end{itemize}
+
+Так как попытки независимы,
+\[
+P(\xi=k)
+=
+(1-\theta)^{k-1}\theta
+\]
+
+Следовательно,
+\[
+\xi \sim \mathrm{Geom}(\theta)
+\]
+
+\textbf{Взаимосвязи}
+\begin{enumerate}
+    \item Геометрическое распределение является частным случаем отрицательного биномиального распределения
+
+Пусть случайная величина
+\[
+\xi \sim \mathrm{NegBin}(m,\theta)
+\]
+имеет отрицательное биномиальное распределение:
+\[
+P(\xi=x)=
+\binom{x+m-1}{x}\theta^m(1-\theta)^x,
+\qquad x\in\mathbb N\cup\{0\},
+\]
+где:
+\begin{itemize}
+    \item $m$ --- число успехов;
+    \item $x$ --- число неудач до появления $m$-го успеха
+\end{itemize}
+
+При $m=1$ получаем:
+\[
+P(\xi=x)=
+\binom{x}{x}\theta(1-\theta)^x
+=
+\theta(1-\theta)^x,
+\qquad x=0,1,2,\dots
+\]
+
+Так как
+\[
+\binom{x}{x}=1,
+\]
+то
+\[
+P(\xi=x)=\theta(1-\theta)^x
+\]
+
+Это распределение числа неудач до первого успеха
+
+Если же геометрическая случайная величина $\eta$ задаёт номер испытания, в котором произошёл первый успех, то
+\[
+\eta = \xi+1
+\]
+
+Следовательно,
+\[
+\eta-1 \sim \mathrm{NegBin}(1,\theta)
+\]
+
+    \item Сумма независимых геометрических случайных величин имеет отрицательное биномиальное распределение
+
+    Пусть
+    \[
+    \xi_1,\dots,\xi_r
+    \]
+    независимы и
+    \[
+    \xi_i \sim \mathrm{Geom}(\theta)
+    \]
+
+    Тогда
+    \[
+    S=\xi_1+\dots+\xi_r
+    \]
+    есть номер испытания, в котором произошёл $r$-й успех
+
+    Следовательно,
+    \[
+    S \sim \mathrm{NegBin}(r,\theta)
+    \]
+\end{enumerate}
+
+\subsection{\texorpdfstring
+{Треугольное распределение $\mathscr{L}_c=\mathrm{Triang}(0,1,\theta)$}
+{Треугольное распределение Lc = Triang(0,1,theta)}}
+
+Пусть случайная величина $\eta$ имеет треугольное распределение на $[0,1]$
+с модой $\theta$, где $0<\theta<1$
+
+Плотность:
+\[
+f(x)=
+\begin{cases}
+\dfrac{2x}{\theta}, & 0\le x\le \theta, \\[1ex]
+\dfrac{2(1-x)}{1-\theta}, & \theta < x \le 1, \\[1ex]
+0, & \text{иначе}
+\end{cases}
+\]
+
+\textbf{Эксперимент.}
+Рассматривается время выполнения лабораторной работы студентом, нормированное к интервалу $[0,1]$:
+\begin{itemize}
+    \item $0$ --- минимально возможное время;
+    \item $1$ --- максимально возможное время;
+    \item $\theta$ --- наиболее вероятное время выполнения.
+\end{itemize}
+
+Предполагается:
+\begin{itemize}
+    \item значения, близкие к $\theta$, встречаются чаще всего;
+    \item чем дальше время от $\theta$, тем менее оно вероятно;
+    \item вероятность меняется линейно
+\end{itemize}
+
+Тогда время выполнения моделируется треугольным распределением:
+\[
+\eta \sim \mathrm{Triang}(0,1,\theta).
+\]
+
+\textbf{Обоснование.}
+Плотность:
+\begin{itemize}
+    \item линейно возрастает на $[0,\theta]$;
+    \item достигает максимума в точке $\theta$;
+    \item линейно убывает на $[\theta,1]$
+\end{itemize}
+
+Это соответствует ситуации, когда наиболее вероятным является значение $\theta$
+
+\textbf{Взаимосвязи}
+\begin{enumerate}
+    \item Симметричное треугольное распределение получается как сумма двух независимых равномерных случайных величин
+
+    Пусть
+    \[
+    U_1,U_2 \sim U[0,1]
+    \]
+    независимы
+
+    Рассмотрим
+    \[
+    S=U_1+U_2.
+    \]
+
+    Тогда плотность:
+    \[
+    f_S(x)=
+    \begin{cases}
+    x, & 0\le x\le1,\\
+    2-x, & 1<x\le2.
+    \end{cases}
+    \]
+
+    Следовательно,
+    \[
+    \frac{U_1+U_2}{2}
+    \sim
+    \mathrm{Triang}\left(0,1,\frac12\right)
+    \]
+
+    \item Треугольное распределение возникает как свёртка равномерных распределений.
+
+    Для независимых случайных величин плотность суммы вычисляется по формуле:
+    \[
+    f_S(x)=
+    \int_{-\infty}^{\infty}
+    f_{U_1}(t)f_{U_2}(x-t)\,dt.
+    \]
+
+    Для равномерных распределений свёртка даёт кусочно-линейную треугольную плотность
+
+\end{enumerate}
+
+\section{Исследование вероятностного распределения}
+
+\subsection{\texorpdfstring
+{Геометрическое распределение $\mathscr{L}_d=\mathrm{Geom}(\theta)$}
+{Геометрическое распределение \mathscr{L}d = Geom(theta)}}
+
+Пусть случайная величина $\xi$ имеет геометрическое распределение:
+\[ P(\xi=k)=(1-\theta)^{k-1}\theta, \qquad k=1,2,\dots, \] где $0<\theta<1$
+
+\subsubsection*{1. Функция распределения}
+
+По определению:
+\[F(x)=P(\xi\le x)\]
+
+Так как $\xi$ принимает только натуральные значения, получаем:
+\[F(x)=\begin{cases}0, & x<1,\\[1ex]\displaystyle\sum_{k=1}^{\lfloor x \rfloor}(1-\theta)^{k-1}\theta,& x\ge1\end{cases}\]
+
+Сумма является суммой геометрической прогрессии:
+\[\sum_{k=1}^{n}(1-\theta)^{k-1}\theta=\theta\frac{1-(1-\theta)^n}{1-(1-\theta)}=1-(1-\theta)^n\]
+
+Следовательно,
+\[F(x)=\begin{cases}0, & x<1,\\[1ex]1-(1-\theta)^{\lfloor x \rfloor},& x\ge1\end{cases}\]
+
+\subsubsection*{2. Проверка свойств функции распределения}
+
+\paragraph{Непрерывность справа}
+
+Пусть $x_0\in\mathbb R$
+
+Для дискретного распределения функция распределения имеет скачки только в целых точках и непрерывна справа:
+\[\lim_{x\to x_0+0}F(x)=F(x_0)\]
+
+Следовательно, функция распределения геометрического распределения непрерывна справа.
+
+\paragraph{Предел при $x\to-\infty$}
+
+Если $x<1$, то
+\[F(x)=0\]
+
+Поэтому:
+\[\lim_{x\to-\infty}F(x)=0\]
+
+\paragraph{Предел при $x\to+\infty$}
+
+Имеем:
+\[F(x)=1-(1-\theta)^{\lfloor x\rfloor}\]
+
+Так как\[0<1-\theta<1,\] то
+\[(1-\theta)^{\lfloor x\rfloor}\to0 \quad \text{при } x\to+\infty\]
+
+Следовательно,
+\[\lim_{x\to+\infty}F(x)=1\]
+
+\subsubsection*{3. Квантили}
+Квантиль уровня $\gamma$ определяется условием:
+\[F(x_\gamma)\ge\gamma\]
+
+Для геометрического распределения:
+\[1-(1-\theta)^k\ge\gamma\]
+
+Тогда:
+\[(1-\theta)^k\le1-\gamma\]
+\[k\ln(1-\theta)\le\ln(1-\gamma).\]
+
+Так как
+\[
+\ln(1-\theta)<0,
+\]
+то:
+\[k\ge\frac{\ln(1-\gamma)}{\ln(1-\theta)}\]
+
+Следовательно,
+\[x_\gamma=\left\lceil\frac{\ln(1-\gamma)}{\ln(1-\theta)}\right\rceil\]
+
+Для заданных уровней:
+\[x_{0.1}=\left\lceil\frac{\ln 0.9}{\ln(1-\theta)}\right\rceil\]
+
+\[x_{0.5}=\left\lceil\frac{\ln 0.5}{\ln(1-\theta)}\right\rceil\]
+
+\[x_{0.9}=\left\lceil\frac{\ln 0.1}{\ln(1-\theta)}\right\rceil\]
+
+\subsection{\texorpdfstring
+{Треугольное распределение $\mathscr{L}_c=\mathrm{Triang}(0,1,\theta)$}
+{Треугольное распределение Lc = Triang(0,1,theta)}}
+
+Пусть случайная величина $\eta$ имеет плотность:
+\[
+f(x)=
+\begin{cases}
+\dfrac{2x}{\theta}, & 0\le x\le\theta,\\[1ex]
+\dfrac{2(1-x)}{1-\theta}, & \theta<x\le1,\\[1ex]
+0, & \text{иначе}
+\end{cases}
+\]
+где $0<\theta<1$.
+
+\subsubsection*{1. Функция распределения}
+
+По определению:
+\[F(x)=\int_{-\infty}^{x}f(t)\,dt\]
+
+\paragraph{При $x<0$}
+\[F(x)=0\]
+
+\paragraph{При $0\le x\le\theta$}
+\[F(x)=\int_0^x \frac{2t}{\theta}\,dt=\frac{x^2}{\theta}\]
+
+\paragraph{При $\theta<x\le1$}
+\[F(x)=F(\theta)+\int_\theta^x\frac{2(1-t)}{1-\theta}\,dt\]
+
+Так как
+\[F(\theta)=\theta,\]
+
+\[F(x)=\theta+\frac{2}{1-\theta}\int_\theta^x(1-t)\,dt\]
+
+\[F(x)=1-\frac{(1-x)^2}{1-\theta}.\]
+
+\paragraph{При $x>1$}
+\[F(x)=1\]
+
+Итак,
+\[F(x)=
+\begin{cases}
+0, & x<0,\\[1ex]
+\dfrac{x^2}{\theta}, & 0\le x\le\theta,\\[2ex]
+1-\dfrac{(1-x)^2}{1-\theta},
+& \theta<x\le1,\\[2ex]
+1, & x>1.
+\end{cases}\]
+
+\subsubsection*{2. Проверка свойств функции распределения}
+
+\paragraph{Непрерывность}
+
+Функция распределения непрерывна как интеграл от плотности
+
+Проверим в точке $x=\theta$:
+\[\lim_{x\to\theta-0}F(x)=\frac{\theta^2}{\theta}=\theta,\]
+и
+\[\lim_{x\to\theta+0}F(x)=1-\frac{(1-\theta)^2}{1-\theta}=\theta\]
+
+Тогда
+\[F(\theta-0)=F(\theta+0)=F(\theta)\]
+
+\paragraph{Предел при $x\to-\infty$}
+
+Для $x<0$:
+\[F(x)=0\]
+
+Следовательно
+\[\lim_{x\to-\infty}F(x)=0\]
+
+\paragraph{Предел при $x\to+\infty$}
+
+Для $x>1$:
+\[F(x)=1\]
+
+Следовательно
+\[\lim_{x\to+\infty}F(x)=1\]
+
+\subsubsection*{3. Квантили}
+
+Квантиль уровня $\gamma$ определяется уравнением:
+\[F(x_\gamma)=\gamma\]
+
+\paragraph{Если $0<\gamma\le\theta$}
+
+Тогда:
+\[\frac{x^2}{\theta}=\gamma\]
+
+Следовательно,
+\[x_\gamma=\sqrt{\theta\gamma}\]
+
+\paragraph{Если $\theta<\gamma<1$}
+Тогда:
+\[1-\frac{(1-x)^2}{1-\theta}=\gamma.\]
+
+Отсюда:
+\[(1-x)^2=(1-\theta)(1-\gamma)\]
+
+Следовательно,
+\[x_\gamma=1-\sqrt{(1-\theta)(1-\gamma)}\]
+
+Поэтому:
+\[x_{0.1}=\begin{cases}\sqrt{0.1\theta}, & 0.1\le\theta,\\[1ex]1-\sqrt{0.9(1-\theta)}, & 0.1>\theta,\end{cases}\]
+
+\[
+x_{0.5}=
+\begin{cases}
+\sqrt{0.5\theta}, & 0.5\le\theta,\\[1ex]
+1-\sqrt{0.5(1-\theta)}, & 0.5>\theta,
+\end{cases}
+\]
+
+\[x_{0.9}=1-\sqrt{0.1(1-\theta)}\]
+
+\section{Характеристики распределений}
+
+\subsection{\texorpdfstring
+{Геометрическое распределение $\mathscr{L}_d=\mathrm{Geom}(\theta)$}
+{Геометрическое распределение Ld = Geom(theta)}}
+
+Пусть
+\[P(\xi=k)=\theta(1-\theta)^{k-1},\qquad k=1,2,\dots\]
+
+Обозначим
+\[q=1-\theta\]
+
+Тогда
+\[P(\xi=k)=\theta q^{k-1}\]
+
+\subsubsection*{1. Математическое ожидание}
+
+По определению:
+\[M\xi=\sum_{k=1}^{\infty}kP(\xi=k)\]
+
+Подставляем распределение:
+\[M\xi=\sum_{k=1}^{\infty}k\theta q^{k-1}=\theta\sum_{k=1}^{\infty}kq^{k-1}\]
+
+Рассмотрим геометрический ряд:
+\[\sum_{k=0}^{\infty}x^k=\frac1{1-x},\qquad |x|<1\]
+
+Дифференцируем:
+\[\sum_{k=1}^{\infty}kx^{k-1}=\frac1{(1-x)^2}\]
+
+Подставляем $x=q$:
+\[\sum_{k=1}^{\infty}kq^{k-1}=\frac1{(1-q)^2}\]
+
+т.к
+\[1-q=\theta,\]
+то:
+\[\sum_{k=1}^{\infty}kq^{k-1}=\frac1{\theta^2}\]
+
+=>
+\[M\xi=\theta\cdot\frac1{\theta^2}=\frac1{\theta}\]
+
+Итого,
+\[\boxed{M\xi=\frac1{\theta}}\]
+
+\subsubsection*{2. Дисперсия}
+
+Сначала вычислим второй момент:
+\[M\xi^2=\sum_{k=1}^{\infty}k^2\theta q^{k-1}=\theta\sum_{k=1}^{\infty}k^2q^{k-1}\]
+
+Используем:
+\[\sum_{k=1}^{\infty}kx^k=\frac{x}{(1-x)^2}\]
+
+Дифференцируем:
+\[\sum_{k=1}^{\infty}k^2x^{k-1}=\frac{(1-x)^2+2x(1-x)}{(1-x)^4}\]
+\[\sum_{k=1}^{\infty}k^2x^{k-1}=\frac{1+x}{(1-x)^3}\]
+
+Подставляем $x=q$:
+\[\sum_{k=1}^{\infty}k^2q^{k-1}=\frac{1+q}{(1-q)^3}\]
+
+т.к
+\[1-q=\theta,\]
+получаем:
+\[M\xi^2=\theta\cdot\frac{1+q}{\theta^3}=\frac{1+q}{\theta^2}\]
+
+=>
+\[D\xi=M\xi^2-(M\xi)^2\]
+
+Подставляем:
+\[D\xi=\frac{1+q}{\theta^2}-\frac1{\theta^2}=\frac{q}{\theta^2}\]
+
+т.к
+\[q=1-\theta,\]
+получаем:
+\[\boxed{D\xi=\frac{1-\theta}{\theta^2}}\]
+
+\subsubsection*{3. Третий момент}
+
+По определению:
+\[M\xi^3=\sum_{k=1}^{\infty}k^3\theta q^{k-1}\]
+
+Используем формулу:
+\[\sum_{k=1}^{\infty}k^3x^{k-1}=\frac{1+4x+x^2}{(1-x)^4}\]
+
+Тогда:
+\[M\xi^3=\theta\cdot\frac{1+4q+q^2}{(1-q)^4}\]
+
+т.к
+\[1-q=\theta,\]
+получаем:
+\[M\xi^3=\frac{1+4q+q^2}{\theta^3}\]
+
+Подставляя
+\[q=1-\theta,\]
+получаем:
+\[\boxed{M\xi^3=\frac{1+4(1-\theta)+(1-\theta)^2}{\theta^3}}\]
+
+\subsubsection*{4. Третий факториальный момент}
+
+По определению:
+\[M[\xi(\xi-1)(\xi-2)]\]
+
+Вычислим:
+\[M[\xi(\xi-1)(\xi-2)]=\sum_{k=1}^{\infty}k(k-1)(k-2)\theta q^{k-1}\]
+
+Используем
+\[\sum_{k=0}^{\infty}x^k=\frac1{1-x}\]
+
+Трижды дифференцируем:
+\[\sum_{k=3}^{\infty}k(k-1)(k-2)x^{k-3}=\frac{6}{(1-x)^4}\]
+
+Умножаем на $x^2$:
+\[\sum_{k=3}^{\infty}k(k-1)(k-2)x^{k-1}=\frac{6x^2}{(1-x)^4}\]
+
+Подставляем $x=q$:
+\[\sum_{k=3}^{\infty}k(k-1)(k-2)q^{k-1}=\frac{6q^2}{(1-q)^4}\]
+
+=>
+\[M[\xi(\xi-1)(\xi-2)]=\theta\cdot\frac{6q^2}{\theta^4}=\frac{6q^2}{\theta^3}\]
+
+Итого
+\[\boxed{M[\xi(\xi-1)(\xi-2)]=\frac{6(1-\theta)^2}{\theta^3}}\]
+
+\subsubsection*{5. Производящая функция}
+
+По определению:
+\[G_\xi(s)=Ms^\xi\]
+
+Тогда:
+\[G_\xi(s)=\sum_{k=1}^{\infty}s^k\theta q^{k-1}\]
+
+\[G_\xi(s)=\theta s\sum_{k=0}^{\infty}(qs)^k\]
+
+Так как
+\[\sum_{k=0}^{\infty}(qs)^k=\frac1{1-qs}\]
+получаем:
+\[\boxed{G_\xi(s)=\frac{\theta s}{1-qs}}\]
+
+\paragraph{Первые три факториальных момента}
+
+Дифференцируем:
+\[G_\xi'(s)=\frac{\theta}{(1-qs)^2}\]
+
+\[G_\xi'(1)=\frac{\theta}{(1-q)^2}=\frac1{\theta}\]
+
+\[M\xi=\frac1{\theta}\]
+
+\[G_\xi''(s)=\frac{2\theta q}{(1-qs)^3}\]
+
+\[G_\xi''(1)=\frac{2q}{\theta^2}.\]
+
+\[M[\xi(\xi-1)]=\frac{2(1-\theta)}{\theta^2}\]
+
+\[G_\xi'''(s)=\frac{6\theta q^2}{(1-qs)^4}\]
+
+\[G_\xi'''(1)=\frac{6q^2}{\theta^3}\]
+
+\[M[\xi(\xi-1)(\xi-2)]=\frac{6(1-\theta)^2}{\theta^3}\]
+
+\paragraph{Второй центральный момент}
+
+Используем производящую функцию:
+\[G_\xi(s)=\frac{\theta s}{1-qs},\qquad q=1-\theta\]
+
+Ранее были найдены производные:
+\[G_\xi'(s)=\frac{\theta}{(1-qs)^2},\]
+\[G_\xi''(s)=\frac{2\theta q}{(1-qs)^3}\]
+
+Подставляем $s=1$:
+\[G_\xi'(1)=\frac1{\theta},\]
+\[G_\xi''(1)=\frac{2q}{\theta^2}\]
+
+т.к
+\[G_\xi'(1)=M\xi,\]
+\[G_\xi''(1)=M[\xi(\xi-1)],\]
+то:
+\[M\xi=\frac1{\theta},\]
+\[M[\xi(\xi-1)]=\frac{2q}{\theta^2}\]
+
+Выразим второй момент:
+\[M\xi^2=M[\xi(\xi-1)]+M\xi\]
+
+=>
+\[M\xi^2=\frac{2q}{\theta^2}+\frac1{\theta}\]
+
+Приводим к общему знаменателю:
+\[M\xi^2=\frac{2q+\theta}{\theta^2}\]
+
+т.к
+\[q=1-\theta,\]
+то
+\[2q+\theta=2(1-\theta)+\theta=2-\theta\]
+
+=>
+\[M\xi^2=\frac{2-\theta}{\theta^2}\]
+
+второй центральный момент:
+\[\mu_2=M(\xi-M\xi)^2=M\xi^2-(M\xi)^2\]
+
+\[\mu_2=\frac{2-\theta}{\theta^2}-\frac1{\theta^2}\]
+
+Получаем:
+\[\mu_2=\frac{1-\theta}{\theta^2}\]
+
+=>
+\[\boxed{\mu_2=\frac{1-\theta}{\theta^2}}\]
+
+\paragraph{Вероятности}
+
+Так как носитель начинается с $1$:
+\[\boxed{P(\xi=0)=0}\]
+
+\[P(\xi=3)=\theta q^2\]
+
+=>
+\[\boxed{P(\xi=3)=\theta(1-\theta)^2}\]
+
+\[P(\xi\ge3)=\sum_{k=3}^{\infty}\theta q^{k-1}\]
+
+\[P(\xi\ge3)=\theta q^2\sum_{k=0}^{\infty}q^k\]
+
+т.к
+\[\sum_{k=0}^{\infty}q^k=\frac1{1-q}=\frac1{\theta}\]
+получаем:
+\[P(\xi\ge3)=q^2\]
+
+=>
+\[\boxed{P(\xi\ge3)=(1-\theta)^2}\]
+
+\subsubsection*{6. Характеристическая функция}
+
+По определению:
+\[\varphi_\xi(t)=Me^{it\xi}\]
+
+Подставляем распределение:
+\[\varphi_\xi(t)=
+\sum_{k=1}^{\infty}
+e^{itk}\theta q^{k-1},
+\qquad q=1-\theta
+\]
+
+Выносим множители:
+\[
+\varphi_\xi(t)=\theta e^{it}
+\sum_{k=0}^{\infty}(qe^{it})^k.
+\]
+\[\sum_{k=0}^{\infty}(qe^{it})^k=\frac1{1-qe^{it}}.\]
+
+тогда
+\[\boxed{\varphi_\xi(t)=\frac{\theta e^{it}}{1-qe^{it}}}\]
+
+Моменты вычисляются по формуле:
+\[M\xi^n=\frac1{i^n}\varphi_\xi^{(n)}(0)\]
+
+\paragraph{Первая производная}
+
+\[\varphi_\xi(t)=\theta e^{it}(1-qe^{it})^{-1}\]
+
+\[\varphi_\xi'(t)=\theta\left(
+ie^{it}(1-qe^{it})^{-1}
++
+e^{it}\cdot
+\frac{iqe^{it}}{(1-qe^{it})^2}
+\right)\]
+
+\[\varphi_\xi'(t)=
+i\theta e^{it}\left(\frac1{1-qe^{it}}
++
+\frac{qe^{it}}{(1-qe^{it})^2}
+\right)\]
+
+\[\varphi_\xi'(t)=i\theta e^{it}\frac{
+1-qe^{it}+qe^{it}
+}{
+(1-qe^{it})^2
+}\]
+
+=>
+\[\varphi_\xi'(t)=\frac{i\theta e^{it}}{(1-qe^{it})^2}\]
+
+Подставляем $t=0$:
+\[\varphi_\xi'(0)=\frac{i\theta}{(1-q)^2}\]
+
+т.к
+\[1-q=\theta,\]
+получаем:
+\[\varphi_\xi'(0)=\frac{i}{\theta}\]
+
+=>
+\[M\xi=\frac1{i}\varphi_\xi'(0)=\frac1{\theta}\]
+
+Итого
+\[\boxed{M\xi=\frac1{\theta}}\]
+
+\paragraph{Вторая производная}
+
+\[\varphi_\xi'(t)=i\theta e^{it}(1-qe^{it})^{-2}\]
+\[\varphi_\xi''(t)=i\theta\left(
+ie^{it}(1-qe^{it})^{-2}
++
+e^{it}\cdot
+\frac{2iqe^{it}}{(1-qe^{it})^3}
+\right)\]
+
+т.к
+\[i^2=-1,\]
+имеем:
+\[\varphi_\xi''(t)=
+-\theta e^{it}
+\left(
+\frac1{(1-qe^{it})^2}
++
+\frac{2qe^{it}}{(1-qe^{it})^3}
+\right)\]
+
+\[\varphi_\xi''(t)
+=
+-\theta e^{it}\frac{
+1-qe^{it}+2qe^{it}
+}{
+(1-qe^{it})^3
+}\]
+
+=>
+\[\varphi_\xi''(t)=
+-\theta e^{it}\frac{1+qe^{it}}{
+(1-qe^{it})^3}\]
+
+Подставляем $t=0$:
+\[\varphi_\xi''(0)=
+-\theta\frac{1+q}{(1-q)^3}.\]
+
+т.к
+\[1-q=\theta,\]
+то
+\[\varphi_\xi''(0)=-\frac{1+q}{\theta^2}\]
+
+=>
+\[M\xi^2=\frac1{i^2}\varphi_\xi''(0)=-\varphi_\xi''(0)\]
+
+Тогда:
+\[M\xi^2=\frac{1+q}{\theta^2}\]
+
+т.к
+\[q=1-\theta\]
+получаем:
+\[\boxed{M\xi^2=\frac{2-\theta}{\theta^2}}\]
+
+\paragraph{Третья производная}
+
+\[\varphi_\xi''(t)
+=
+-\theta e^{it}(1+qe^{it})(1-qe^{it})^{-3}\]
+
+Используем правило произведения:
+\[\varphi_\xi'''(t)
+=
+-\theta\Bigl(ie^{it}(1+qe^{it})(1-qe^{it})^{-3}\]
+\[+e^{it}(iqe^{it})(1-qe^{it})^{-3}\]
+\[+e^{it}(1+qe^{it})\cdot3iqe^{it}(1-qe^{it})^{-4}\Bigr)\]
+
+\[\varphi_\xi'''(t)=-i\theta e^{it}\left[\frac{1+2qe^{it}}{(1-qe^{it})^3}+
+\frac{3qe^{it}(1+qe^{it})}{(1-qe^{it})^4}\right]\]
+
+\[\varphi_\xi'''(t)
+=
+-i\theta e^{it}
+\frac{
+(1+2qe^{it})(1-qe^{it})
++
+3qe^{it}(1+qe^{it})
+}{(1-qe^{it})^4}\]
+
+\[(1+2qe^{it})(1-qe^{it})=1+qe^{it}-2q^2e^{2it}\]
+
+\[3qe^{it}(1+qe^{it})=3qe^{it}+3q^2e^{2it}\]
+
+Складываем:
+\[1+4qe^{it}+q^2e^{2it}.\]
+=>
+\[\varphi_\xi'''(t)=
+-i\theta e^{it}
+\frac{
+1+4qe^{it}+q^2e^{2it}
+}{(1-qe^{it})^4}\]
+
+Подставляем $t=0$:
+\[
+\varphi_\xi'''(0)
+=
+-i\theta\frac{
+1+4q+q^2}{(1-q)^4}\]
+
+т.к
+\[1-q=\theta\]
+получаем:
+\[\varphi_\xi'''(0)=
+-i
+\frac{
+1+4q+q^2
+}{\theta^3}\]
+
+=>
+\[M\xi^3=\frac1{i^3}\varphi_\xi'''(0).\]
+
+т.к
+\[i^3=-i,\qquad\frac1{i^3}=i,\]
+
+\[M\xi^3=i\left(-i\frac{1+4q+q^2}
+{\theta^3}\right)\]
+
+=>
+\[M\xi^3=\frac{1+4q+q^2}
+{\theta^3}\]
+
+Подставляем
+\[q=1-\theta:\]
+
+\[\boxed{M\xi^3=\frac{1+4(1-\theta)+(1-\theta)^2}
+{\theta^3}}\]
+
+\subsection{\texorpdfstring
+{Треугольное распределение $\mathscr{L}_c=\mathrm{Triang}(0,1,\theta)$}
+{Треугольное распределение Lc = Triang(0,1,theta)}}
+
+Плотность распределения:
+\[
+f(x)=
+\begin{cases}
+\dfrac{2x}{\theta}, & 0\le x\le\theta,\\[1ex]
+\dfrac{2(1-x)}{1-\theta}, & \theta<x\le1,\\[1ex]
+0, & \text{иначе},
+\end{cases}
+\qquad 0<\theta<1.
+\]
+
+\subsubsection*{1. Математическое ожидание}
+
+По определению:
+\[M\eta=\int_{-\infty}^{+\infty}xf(x)\,dx\]
+
+Подставляем плотность:
+\[M\eta=\int_0^\thetax\frac{2x}{\theta}\,dx
++
+\int_\theta^1x\frac{2(1-x)}{1-\theta}\,dx\]
+
+Первый интеграл:
+\[\int_0^\thetax\frac{2x}{\theta}\,dx
+=
+\frac2\theta\int_0^\theta x^2\,dx\]
+
+\[\frac2\theta
+\left[
+\frac{x^3}{3}
+\right]_0^\theta=
+\frac2\theta\cdot\frac{\theta^3}{3}=\frac{2\theta^2}{3}.\]
+
+Второй интеграл:
+\[\int_\theta^1x\frac{2(1-x)}{1-\theta}\,dx
+=
+\frac2{1-\theta}\int_\theta^1(x-x^2)\,dx\]
+
+Вычисляем:
+\[\frac2{1-\theta}\left[
+\frac{x^2}{2}-\frac{x^3}{3}
+\right]_\theta^1\]
+
+Подставляем пределы:
+\[\frac2{1-\theta}
+\left(\frac12-\frac13-\frac{\theta^2}{2}+\frac{\theta^3}{3}
+\right)\]
+
+\[\frac2{1-\theta}\left(
+\frac16-\frac{\theta^2}{2}+\frac{\theta^3}{3}
+\right)\]
+
+\[=\frac2{1-\theta}\cdot\frac{1-3\theta^2+2\theta^3}{6}\]
+
+т.к
+\[1-3\theta^2+2\theta^3=(1-\theta)^2(1+2\theta).\]
+
+=>
+\[=\frac{(1-\theta)(1+2\theta)}{3}.\]
+
+Теперь складываем:
+\[M\eta=\frac{2\theta^2}{3}+\frac{(1-\theta)(1+2\theta)}{3}.\]
+
+\[(1-\theta)(1+2\theta)=1+\theta-2\theta^2\]
+
+=>
+\[M\eta=\frac{2\theta^2+1+\theta-2\theta^2}{3}\]
+
+Получаем:
+\[\boxed{M\eta=\frac{1+\theta}{3}}\]
+
+\subsubsection*{2. Дисперсия}
+
+Сначала вычислим второй момент:
+\[M\eta^2=\int_{-\infty}^{+\infty}x^2f(x)\,dx\]
+
+Подставляем плотность:
+\[M\eta^2=
+\int_0^\theta
+x^2\frac{2x}{\theta}\,dx+
+\int_\theta^1
+x^2\frac{2(1-x)}{1-\theta}\,dx\]
+
+Первый интеграл:
+\[
+\frac2\theta\int_0^\theta x^3\,dx
+=
+\frac2\theta\left[\frac{x^4}{4}\right]_0^\theta\]
+
+\[=\frac2\theta\cdot\frac{\theta^4}{4}
+=\frac{\theta^3}{2}.\]
+
+Второй интеграл:
+\[\frac2{1-\theta}\int_\theta^1(x^2-x^3)\,dx\]
+
+\[\frac2{1-\theta}\left[
+\frac{x^3}{3}-\frac{x^4}{4}\right]_\theta^1\]
+
+Подставляем:
+\[\frac2{1-\theta}\left(
+\frac13-\frac14-\frac{\theta^3}{3}+\frac{\theta^4}{4}\right)\]
+
+\[\frac2{1-\theta}\left(
+\frac1{12}-\frac{\theta^3}{3}+\frac{\theta^4}{4}\right)\]
+
+\[=\frac2{1-\theta}\cdot
+\frac{1-4\theta^3+3\theta^4}{12}\]
+
+т.к
+\[
+1-4\theta^3+3\theta^4
+=(1-\theta)^2(1+2\theta+3\theta^2).\]
+
+=>
+\[=\frac{(1-\theta)(1+2\theta+3\theta^2)}{6}.\]
+
+Тогда:
+\[M\eta^2
+=
+\frac{\theta^3}{2}+\frac{(1-\theta)(1+2\theta+3\theta^2)}{6}.\]
+
+Раскрываем:
+\[(1-\theta)(1+2\theta+3\theta^2)=1+\theta+\theta^2-3\theta^3.\]
+
+\[M\eta^2=\frac{3\theta^3+1+\theta+\theta^2-3\theta^3}{6}.\]
+
+\[\boxed{M\eta^2=\frac{1+\theta+\theta^2}{6}}\]
+
+Теперь вычисляем дисперсию:
+\[D\eta=M\eta^2-(M\eta)^2\]
+
+\[D\eta=\frac{1+\theta+\theta^2}{6}
+-
+\left(\frac{1+\theta}{3}\right)^2\]
+
+\[D\eta=\frac{
+3(1+\theta+\theta^2)-2(1+2\theta+\theta^2)
+}{18}\]
+
+\[=\frac{3+3\theta+3\theta^2-2-4\theta-2\theta^2
+}{18}\]
+
+\[\boxed{D\eta=\frac{1-\theta+\theta^2}{18}}\]
+
+\subsubsection*{3. Третий момент}
+
+По определению:
+\[M\eta^3=\int_{-\infty}^{+\infty}x^3f(x)\,dx\]
+
+Подставляем плотность:
+\[M\eta^3
+=\int_0^\theta
+x^3\frac{2x}{\theta}\,dx
++
+\int_\theta^1
+x^3\frac{2(1-x)}{1-\theta}\,dx\]
+
+Первый интеграл:
+\[\frac2\theta\int_0^\theta x^4\,dx
+=
+\frac2\theta\left[
+\frac{x^5}{5}\right]_0^\theta\]
+
+\[=\frac{2\theta^4}{5}.\]
+
+Второй интеграл:
+\[\frac2{1-\theta}\int_\theta^1(x^3-x^4)\,dx\]
+
+\[\frac2{1-\theta}\left[
+\frac{x^4}{4}-\frac{x^5}{5}\right]_\theta^1\]
+
+\[\frac2{1-\theta}
+\left(\frac14-\frac15-\frac{\theta^4}{4}+\frac{\theta^5}{5}
+\right)\]
+
+\[\frac2{1-\theta}\left(
+\frac1{20}-\frac{\theta^4}{4}+\frac{\theta^5}{5}
+\right)\]
+
+\[=
+\frac2{1-\theta}\cdot
+\frac{1-5\theta^4+4\theta^5}{20}\]
+
+т.к
+\[1-5\theta^4+4\theta^5=(1-\theta)^2(1+2\theta+3\theta^2+4\theta^3)\]
+
+то
+\[=\frac{(1-\theta)(1+2\theta+3\theta^2+4\theta^3)}{10}\]
+
+\[M\eta^3=\frac{2\theta^4}{5}
++
+\frac{(1-\theta)(1+2\theta+3\theta^2+4\theta^3)}{10}\]
+
+\[(1-\theta)(1+2\theta+3\theta^2+4\theta^3)=1+\theta+\theta^2+\theta^3-4\theta^4\]
+
+=>
+\[M\eta^3=
+\frac{
+4\theta^4+1+\theta+\theta^2+\theta^3-4\theta^4
+}{10}\]
+
+\[
+\boxed{M\eta^3
+=
+\frac{1+\theta+\theta^2+\theta^3}{10}}\]
+
+\subsubsection*{4. Третий факториальный момент}
+
+По определению:
+\[M[\eta(\eta-1)(\eta-2)]\]
+
+Раскрываем скобки:
+\[\eta(\eta-1)(\eta-2)=\eta^3-3\eta^2+2\eta\]
+
+\[M[\eta(\eta-1)(\eta-2)]=M\eta^3-3M\eta^2+2M\eta\]
+
+Подставляем ранее найденные значения:
+\[M\eta=\frac{1+\theta}{3},\]
+\[M\eta^2=\frac{1+\theta+\theta^2}{6},\]
+\[M\eta^3=\frac{1+\theta+\theta^2+\theta^3}{10}\]
+
+Получаем:
+\[M[\eta(\eta-1)(\eta-2)]
+=
+\frac{1+\theta+\theta^2+\theta^3}{10}
+-
+\frac{1+\theta+\theta^2}{2}
++
+\frac{2(1+\theta)}{3}\]
+
+\[=
+\frac{
+3(1+\theta+\theta^2+\theta^3)
+-15(1+\theta+\theta^2)
++20(1+\theta)
+}{30}\]
+
+\[=
+\frac{
+3+3\theta+3\theta^2+3\theta^3
+-15-15\theta-15\theta^2
++20+20\theta
+}{30}\]
+
+\[=\frac{
+8+8\theta-12\theta^2+3\theta^3
+}{30}\]
+
+\[
+\boxed{M[\eta(\eta-1)(\eta-2)]=\frac{
+8+8\theta-12\theta^2+3\theta^3
+}{30}}\]
+
+\subsubsection*{5. Производящая функция}
+
+Производящая функция вероятностей определяется только для дискретных неотрицательных целочисленных случайных величин
+
+Так как треугольное распределение является абсолютно непрерывным распределением, производящая функция вероятностей для него не определяется
+
+Следовательно:
+\[
+\boxed{
+\text{Производящая функция для распределения }
+\mathrm{Triang}(0,1,\theta)
+\text{ не существует.}
+}
+\]
+
+По этой же причине факториальные моменты и вероятности
+\[
+P(\eta=0),
+\quad
+P(\eta=3),
+\quad
+P(\eta\ge3)
+\]
+не вычисляются с помощью производящей функции
+
+При этом:
+\[
+P(\eta=0)=0,
+\]
+так как для абсолютно непрерывной случайной величины вероятность попадания в конкретную точку равна нулю
+
+Также:
+\[P(\eta=3)=0\]
+
+И:
+\[P(\eta\ge3)=0\]
+
+Следовательно,
+\[
+\boxed{P(\eta=0)=0}\]
+
+\[\boxed{P(\eta=3)=0}\]
+
+\[\boxed{P(\eta\ge3)=0}\]
+
+\subsubsection*{6. Характеристическая функция}
+
+По определению:
+\[\varphi_\eta(t)=
+Me^{it\eta}=\int_{-\infty}^{+\infty}e^{itx}f(x)\,dx\]
+
+Подставляем плотность:
+\[\varphi_\eta(t)=
+\int_0^\theta
+e^{itx}\frac{2x}{\theta}\,dx
++
+\int_\theta^1
+e^{itx}\frac{2(1-x)}{1-\theta}\,dx\]
+
+Тогда:
+\[\varphi_\eta(t)=
+\frac2\theta\int_0^\theta
+xe^{itx}\,dx
++
+\frac2{1-\theta}\int_\theta^1(1-x)e^{itx}\,dx\]
+
+по частям первый интеграл
+
+Пусть:
+\[u=x,\qquaddv=e^{itx}dx\]
+
+Тогда:
+\[du=dx,\qquadv=\frac{e^{itx}}{it}\]
+
+\[\int xe^{itx}dx=
+\frac{xe^{itx}}{it}
+-
+\int\frac{e^{itx}}{it}dx.\]
+
+Получаем:
+\[=\frac{xe^{itx}}{it}
+-
+\frac{e^{itx}}{(it)^2}\]
+
+=>
+\[
+\int_0^\theta xe^{itx}dx
+=\left[\frac{xe^{itx}}{it}
+-
+\frac{e^{itx}}{(it)^2}\right]_0^\theta\]
+
+Подставляем пределы:
+\[=\frac{\theta e^{it\theta}}{it}
+-
+\frac{e^{it\theta}}{(it)^2}
++\frac1{(it)^2}\]
+
+Теперь вычислим второй интеграл:
+\[\int(1-x)e^{itx}dx
+=
+\int e^{itx}dx
+-
+\int xe^{itx}dx\]
+
+\[=
+\frac{e^{itx}}{it}
+-
+\left(\frac{xe^{itx}}{it}
+-
+\frac{e^{itx}}{(it)^2}\right)\]
+
+\[=\frac{(1-x)e^{itx}}{it}
++
+\frac{e^{itx}}{(it)^2}\]
+
+\[\int_\theta^1(1-x)e^{itx}dx
+=\left[
+\frac{(1-x)e^{itx}}{it}
++
+\frac{e^{itx}}{(it)^2}\right]_\theta^1\]
+
+Подставляем пределы:
+\[=\frac{e^{it}}{(it)^2}
+-
+\frac{(1-\theta)e^{it\theta}}{it}
+-
+\frac{e^{it\theta}}{(it)^2}\]
+
+\[\varphi_\eta(t)
+=
+\frac2\theta\left(\frac{\theta e^{it\theta}}{it}
+-
+\frac{e^{it\theta}}{(it)^2}
++
+\frac1{(it)^2}\right)\]
+\[+\frac2{1-\theta}
+\left(\frac{e^{it}}{(it)^2}
+-
+\frac{(1-\theta)e^{it\theta}}{it}
+-
+\frac{e^{it\theta}}{(it)^2}\right)\]
+
+\[\boxed{\varphi_\eta(t)
+=
+\frac2{(it)^2}\left(
+\frac{1-e^{it\theta}}{\theta}
++
+\frac{e^{it}-e^{it\theta}}{1-\theta}\right)}\]
+
+\paragraph{Вычисление моментов с помощью характеристической функции}
+
+Моменты вычисляются по формуле:
+\[M\eta^n=\frac1{i^n}\varphi_\eta^{(n)}(0)\]
+
+Используем характеристическую функцию:
+\[\varphi_\eta(t)
+=
+\frac2{(it)^2}\left(\frac{1-e^{it\theta}}{\theta}
++
+\frac{e^{it}-e^{it\theta}}{1-\theta}\right)\]
+
+Разложим экспоненты в ряд Тейлора в 0 
+\[e^{it\theta}=
+1+it\theta+\frac{(it\theta)^2}{2}+\frac{(it\theta)^3}{6}+o(t^3)\]
+
+\[e^{it}
+=
+1+it+\frac{(it)^2}{2}+\frac{(it)^3}{6}+o(t^3)\]
+
+\[1-e^{it\theta}
+=
+-it\theta-\frac{(it\theta)^2}{2}-\frac{(it\theta)^3}{6}
++o(t^3),\]
+
+и
+\[e^{it}-e^{it\theta}=
+it(1-\theta)+\frac{(it)^2}{2}(1-\theta^2)+\frac{(it)^3}{6}(1-\theta^3)+o(t^3)\]
+
+\[
+\frac{1-e^{it\theta}}{\theta}=
+-it-\frac{i^2t^2\theta}{2}-\frac{i^3t^3\theta^2}{6}+o(t^3)\]
+
+\[\frac{e^{it}-e^{it\theta}}{1-\theta}=it
++\frac{i^2t^2(1+\theta)}{2}
++\frac{i^3t^3(1+\theta+\theta^2)}{6}+o(t^3)\]
+
+Складываем:
+\[\frac{1-e^{it\theta}}{\theta}
++
+\frac{e^{it}-e^{it\theta}}{1-\theta}\]
+\[=\frac{i^2t^2}{2}
++
+\frac{i^3t^3(1+\theta)}{6}
++
+\frac{i^4t^4(1+\theta+\theta^2)}{24}
++
+\frac{i^5t^5(1+\theta+\theta^2+\theta^3)}{120}+o(t^5)\]
+
+тогда
+\[\varphi_\eta(t)
+=
+\frac2{(it)^2}\left(\frac{i^2t^2}{2}
++
+\frac{i^3t^3(1+\theta)}{6}
++
+\frac{i^4t^4(1+\theta+\theta^2)}{24}
++
+\frac{i^5t^5(1+\theta+\theta^2+\theta^3)}{120}+o(t^5)\right)\]
+
+\[\varphi_\eta(t)
+=1+\frac{it(1+\theta)}{3}+
+\frac{(it)^2(1+\theta+\theta^2)}{12}+
+\frac{(it)^3(1+\theta+\theta^2+\theta^3)}{60}+o(t^3)\]
+
+Теперь дифференцируем
+
+\paragraph{Первый момент}
+
+\[\varphi_\eta'(t)=\frac{i(1+\theta)}{3}
++
+\frac{2i^2t(1+\theta+\theta^2)}{12}
++
+\frac{3i^3t^2(1+\theta+\theta^2+\theta^3)}{60}+o(t^2)\]
+
+Подставляем $t=0$:
+\[\varphi_\eta'(0)
+=\frac{i(1+\theta)}{3}.\]
+
+\[M\eta
+=\frac1{i}\varphi_\eta'(0)=\frac{1+\theta}{3}.\]
+
+\[\boxed{M\eta=\frac{1+\theta}{3}}\]
+
+\paragraph{Второй момент}
+
+Дифференцируем ещё раз
+\[\varphi_\eta''(t)=
+\frac{2i^2(1+\theta+\theta^2)}{12}
++
+\frac{6i^3t(1+\theta+\theta^2+\theta^3)}{60}+o(t)\]
+
+Подставляем $t=0$:
+\[\varphi_\eta''(0)
+=
+\frac{i^2(1+\theta+\theta^2)}{6}.\]
+
+Так как
+\[i^2=-1\]
+
+\[\varphi_\eta''(0)=-\frac{1+\theta+\theta^2}{6}.\]
+
+\[M\eta^2=\frac1{i^2}\varphi_\eta''(0)
+=-\varphi_\eta''(0).\]
+
+\[M\eta^2=\frac{1+\theta+\theta^2}{6}.\]
+
+\[\boxed{M\eta^2=\frac{1+\theta+\theta^2}{6}}\]
+
+\paragraph{Третий момент}
+
+Дифференцируем третий раз:
+\[\varphi_\eta'''(t)
+=\frac{6i^3(1+\theta+\theta^2+\theta^3)}{60}+o(1)\]
+
+Подставляем $t=0$:
+\[\varphi_\eta'''(0)=\frac{i^3(1+\theta+\theta^2+\theta^3)}{10}\]
+т.к
+\[i^3=-i,\]
+получаем:
+\[\varphi_\eta'''(0)=-\frac{i(1+\theta+\theta^2+\theta^3)}{10}\]
+
+\[M\eta^3=\frac1{i^3}\varphi_\eta'''(0)\]
+
+т.к
+\[\frac1{i^3}=i,\]
+
+\[M\eta^3=i\left(
+-\frac{i(1+\theta+\theta^2+\theta^3)}{10}
+\right)\]
+\[-i^2=1,\]
+имеем:
+\[M\eta^3=
+\frac{1+\theta+\theta^2+\theta^3}{10}.\]
+
+\[\boxed{
+M\eta^3=
+\frac{1+\theta+\theta^2+\theta^3}{10}}\]
+
+\section{Свёртка распределений}
+
+Предполагаем, что все случайные величины независимы
+
+\subsection{\texorpdfstring
+{$\xi_1+\xi_2$, где $\xi_1,\xi_2\sim \mathrm{Geom}(\theta)$}
+{xi1+xi2, где xi1, xi2 ~ Geom(theta)}}
+
+Пусть
+\[P(\xi_i=k)=\theta(1-\theta)^{k-1},\qquad k=1,2,\dots\]
+
+Рассмотрим сумму:
+\[S_2=\xi_1+\xi_2.\]
+
+Тогда:
+\[P(S_2=n)=\sum_{k=1}^{n-1}
+P(\xi_1=k)P(\xi_2=n-k)\]
+
+Подставляем распределения:
+\[P(S_2=n)=
+\sum_{k=1}^{n-1}
+\theta(1-\theta)^{k-1}
+\theta(1-\theta)^{n-k-1}\]
+
+\[=\theta^2(1-\theta)^{n-2}\sum_{k=1}^{n-1}1\]
+
+Так как в сумме $n-1$ слагаемых:
+\[P(S_2=n)
+=
+(n-1)\theta^2(1-\theta)^{n-2},\qquad n=2,3,\dots\]
+
+Следовательно
+\[\boxed{\xi_1+\xi_2\sim \mathrm{NegBin}(2,\theta)}\]
+
+\subsection{\texorpdfstring
+{$\eta_1+\eta_2$, где $\eta_1,\eta_2\sim \mathrm{Triang}(0,1,\theta)$}
+{eta1+eta2, где eta1, eta2 ~ Triang(0,1,theta)}}
+
+Пусть
+\[S_2=\eta_1+\eta_2,\]
+
+\[f_\eta(x)=
+\begin{cases}
+\dfrac{2x}{\theta}, & 0\le x\le\theta,\\[1ex]
+\dfrac{2(1-x)}{1-\theta}, & \theta<x\le1,\\[1ex]
+0, & \text{иначе}\end{cases}\]
+
+Плотность суммы независимых абсолютно непрерывных случайных величин находится по формуле свёртки:
+\[f_{S_2}(x)=\int_{-\infty}^{+\infty}
+f_\eta(t)f_\eta(x-t)\,dt\]
+
+\[0\le S_2\le2.\]
+
+Следовательно,
+\[f_{S_2}(x)=0,\qquad x<0 \ \text{или}\ x>2\]
+
+Рассмотрим 
+\[0\le x\le\theta.\]
+
+Тогда:
+\[0\le t\le x,\]
+и одновременно
+\[0\le x-t\le\theta.\]
+
+Следовательно, обе плотности берутся из первой ветви:
+\[f_\eta(t)=\frac{2t}{\theta},\qquad f_\eta(x-t)=\frac{2(x-t)}{\theta}\]
+
+Тогда:
+\[f_{S_2}(x)=\int_0^x\frac{2t}{\theta}\frac{2(x-t)}{\theta}\,dt\]
+
+\[=\frac4{\theta^2}\int_0^xt(x-t)\,dt\]
+
+\[=\frac4{\theta^2}\int_0^x(xt-t^2)\,dt\]
+
+\[=\frac4{\theta^2}
+\left[\frac{xt^2}{2}-\frac{t^3}{3}\right]_0^x\]
+
+Подставляем пределы:
+\[=\frac4{\theta^2}\left(
+\frac{x^3}{2}-\frac{x^3}{3}\right)\]
+
+\[=\frac4{\theta^2}\cdot\frac{x^3}{6}.\]
+
+\[\boxed{f_{S_2}(x)
+=
+\frac{2x^3}{3\theta^2},
+\qquad 0\le x\le\theta}\]
+
+Аналогично рассматриваются интервалы:
+\[\theta<x\le1,
+\qquad
+1<x\le1+\theta,
+\qquad
+1+\theta<x\le2\]
+
+На каждом из этих промежутков плотность вычисляется отдельно, поскольку меняется вид функций
+\[f_\eta(t), \qquad f_\eta(x-t)\]
+
+В результате получается кусочно-полиномиальная функция третьей степени
+
+
+
+\subsection{\texorpdfstring
+{$\xi_1+\xi_2+\xi_3$, где $\xi_i\sim \mathrm{Geom}(\theta)$}
+{xi1+xi2+xi3, где xi_i ~ Geom(theta)}}
+
+Рассмотрим сумму:
+\[S_3=\xi_1+\xi_2+\xi_3.\]
+
+\[S_3=n\]
+означает, что третий успех произошёл в $n$-м испытании
+
+Тогда:
+\[P(S_3=n)
+=
+\binom{n-1}{2}
+\theta^3(1-\theta)^{n-3},
+\qquad n=3,4,\dots\]
+
+\[\boxed{
+\xi_1+\xi_2+\xi_3\sim
+\mathrm{NegBin}(3,\theta)}\]
+
+\subsection{\texorpdfstring
+{$\eta_1+\eta_2+\eta_3$, где $\eta_i\sim \mathrm{Triang}(0,1,\theta)$}
+{eta1+eta2+eta3, где eta_i ~ Triang(0,1,theta)}}
+
+Пусть
+\[S_3=\eta_1+\eta_2+\eta_3,\]
+
+\[
+f_\eta(x)=
+\begin{cases}
+\dfrac{2x}{\theta}, & 0\le x\le\theta,\\[1ex]
+\dfrac{2(1-x)}{1-\theta}, & \theta<x\le1,\\[1ex]
+0, & \text{иначе}
+\end{cases}
+\]
+
+Плотность суммы трёх независимых случайных величин находится по формуле тройной свёртки:
+\[
+f_{S_3}(x)=
+(f_\eta*f_\eta*f_\eta)(x).\]
+
+То есть:
+\[
+f_{S_3}(x)
+=
+\int_{-\infty}^{+\infty}
+\int_{-\infty}^{+\infty}
+f_\eta(t)
+f_\eta(s)
+f_\eta(x-t-s)
+\,dt\,ds\] 
+
+\[0\le x\le3.\]
+
+Следовательно,
+\[f_{S_3}(x)=0,\qquad x<0 \ \text{или}\ x>3\]
+
+Рассмотрим промежуток
+\[0\le x\le\theta\]
+
+Тогда:
+\[0\le t\le x,\qquad
+0\le s\le x-t,\qquad
+0\le x-t-s\le\theta\]
+
+Следовательно, во всех трёх множителях используется первая ветвь плотности:
+\[f_\eta(t)=\frac{2t}{\theta},\]
+\[f_\eta(s)=\frac{2s}{\theta},\]
+\[f_\eta(x-t-s)=\frac{2(x-t-s)}{\theta}\]
+
+Подставляем:
+\[f_{S_3}(x)
+=
+\int_0^x
+\int_0^{x-t}
+\frac{2t}{\theta}
+\frac{2s}{\theta}
+\frac{2(x-t-s)}{\theta}
+\,ds\,dt\]
+
+\[=
+\frac8{\theta^3}
+\int_0^x
+\int_0^{x-t}
+ts(x-t-s)
+\,ds\,dt\]
+
+Сначала вычисляем внутренний интеграл:
+\[\int_0^{x-t}s(x-t-s)\,ds\]
+
+Раскрываем скобки:
+\[=\int_0^{x-t}\bigl((x-t)s-s^2\bigr)\,ds\]
+
+\[=\left[\frac{(x-t)s^2}{2}
+-\frac{s^3}{3}\right]_0^{x-t}\]
+
+\[=\frac{(x-t)^3}{2}
+-\frac{(x-t)^3}{3}\]
+
+Получаем:
+\[=\frac{(x-t)^3}{6}\]
+
+\[f_{S_3}(x)
+=\frac8{\theta^3}\int_0^xt\frac{(x-t)^3}{6}\,dt\]
+
+Выносим постоянную:
+\[=\frac4{3\theta^3}\int_0^x
+t(x-t)^3\,dt\]
+
+Раскрываем скобки
+\[(x-t)^3
+=
+x^3-3x^2t+3xt^2-t^3\]
+
+Тогда
+\[t(x-t)^3
+=
+x^3t-3x^2t^2+3xt^3-t^4\]
+
+\[f_{S_3}(x)
+=\frac4{3\theta^3}\int_0^x
+\left(
+x^3t-3x^2t^2+3xt^3-t^4\right)\,dt\]
+
+\[=\frac4{3\theta^3}\left[
+\frac{x^3t^2}{2}
+-x^2t^3
++\frac{3xt^4}{4}
+-\frac{t^5}{5}\right]_0^x\]
+\[=\frac4{3\theta^3}
+\left(
+\frac{x^5}{2}
+-x^5+\frac{3x^5}{4}
+-\frac{x^5}{5}\right)\]
+
+\[\frac12-1+\frac34-\frac15=\frac1{20}\]
+
+\[f_{S_3}(x)=\frac4{3\theta^3}\cdot\frac{x^5}{20}\]
+
+Получаем:\[\boxed{
+f_{S_3}(x)
+=
+\frac{x^5}{15\theta^3},
+\qquad 0\le x\le\theta}\]
+
+На остальных промежутках:
+\[\theta<x\le1,\qquad
+1<x\le1+\theta,\qquad
+1+\theta<x\le2,\qquad
+2<x\le3,\]
+плотность вычисляется аналогично, но выражения становятся более громоздкими
+
+\subsection{\texorpdfstring
+{$\sum_{i=1}^{n}\xi_i$, где $\xi_i\sim \mathrm{Geom}(\theta)$}
+{sum xi_i, где xi_i ~ Geom(theta)}}
+
+Рассмотрим сумму:
+\[S_n=\sum_{i=1}^{n}\xi_i\]
+
+\[S_n=k\]
+означает, что $n$-й успех произошёл в $k$-м испытании
+
+\[P(S_n=k)=
+\binom{k-1}{n-1}
+\theta^n(1-\theta)^{k-n},
+\qquad k=n,n+1,\dots\]
+
+Следовательно,
+\[\boxed{
+\sum_{i=1}^{n}\xi_i\sim
+\mathrm{NegBin}(n,\theta)}\]
+
+\subsection{\texorpdfstring
+{$\sum_{i=1}^{n}\eta_i$, где $\eta_i\sim \mathrm{Triang}(0,1,\theta)$}
+{sum eta_i, где eta_i ~ Triang(0,1,theta)}}
+пусть
+\[S_n=\sum_{i=1}^{n}\eta_i,\]
+\[f_\eta(x)=
+\begin{cases}
+\dfrac{2x}{\theta}, & 0\le x\le\theta,\\[1ex]
+\dfrac{2(1-x)}{1-\theta}, & \theta<x\le1,\\[1ex]
+0, & \text{иначе}\end{cases}\]
+
+Плотность суммы независимых абсолютно непрерывных случайных величин находится как $n$-кратная свёртка:
+\[f_{S_n}(x)=(f_\eta*\dots*f_\eta)(x)\]
+
+Рекуррентно:
+\[f_{S_n}(x)
+=
+\int_{-\infty}^{+\infty}
+f_{S_{n-1}}(t)
+f_\eta(x-t)\,dt\]
+
+\[0\le S_n\le n.\]
+
+\[f_{S_n}(x)=0,\qquad x<0 \ \text{или}\ x>n\]
+
+Рассмотрим промежуток
+\[
+0\le x\le\theta.
+\]
+
+Тогда
+\[0\le \eta_i\le x,\]
+и поэтому во всех множителях используется первая ветвь плотности:
+\[f_\eta(u)=\frac{2u}{\theta}.\]
+
+В этом случае:
+\[
+f_{S_n}(x)=
+\frac{2^n}{\theta^n}
+\int\limits_{u_1+\dots+u_n=x}
+u_1u_2\dots u_n
+\,du_1\dots du_{n-1}\]
+
+\[u_i\ge0,
+\qquad
+u_1+\dots+u_n=x\]
+
+Используем замену:
+\[u_i=xv_i,
+\qquad
+v_1+\dots+v_n=1\]
+
+Тогда
+\[du_1\dots du_{n-1}=x^{n-1}dv_1\dots dv_{n-1},\] и
+\[u_1\dots u_n=x^n v_1\dots v_n \]
+
+Отсюда
+\[
+\boxed{
+f_{S_n}(x)
+=
+\frac{2^n x^{2n-1}}{\theta^n}
+\int\limits_{v_1+\dots+v_n=1}
+v_1\dots v_n\,dv_1\dots dv_{n-1}}\]
+
+На остальных промежутках плотность вычисляется аналогично, однако выражения становятся существенно более громоздкими, поскольку появляются различные комбинации ветвей
+
+\subsection{\texorpdfstring
+{$\xi+\eta$, где $\xi\sim \mathrm{Geom}(\theta)$, $\eta\sim \mathrm{Triang}(0,1,\theta)$}
+{xi+eta, где xi ~ Geom(theta), eta ~ Triang(0,1,theta)}}
+
+\[S=\xi+\eta,\]
+где
+\[P(\xi=k)=\theta(1-\theta)^{k-1},\qquad k=1,2,\dots\]
+и
+\[\eta\sim \mathrm{Triang}(0,1,\theta)\]
+
+Плотность треугольного распределения
+\[f_\eta(y)=
+\begin{cases}
+\dfrac{2y}{\theta},
+& 0\le y\le \theta,
+\\[8pt]
+\dfrac{2(1-y)}{1-\theta},
+& \theta< y\le 1,
+\\[8pt]0,
+& \text{иначе}
+\end{cases}\]
+
+Так как \(\xi\) — дискретная случайная величина, а \(\eta\) —
+абсолютно непрерывная, плотность суммы находится по формуле
+свёртки:
+\[f_S(x)=
+\sum_{k=1}^{\infty}
+P(\xi=k)\,f_\eta(x-k)\]
+
+Подставляем распределение геометрической случайной величины:
+\[f_S(x)=\sum_{k=1}^{\infty}\theta(1-\theta)^{k-1}f_\eta(x-k)\]
+
+Так как носитель распределения \(\eta\) равен \([0,1]\),
+функция \(f_\eta(x-k)\neq0\) только при
+\[0\le x-k\le1,\]
+то есть
+\[k\le x\le k+1\]
+
+Следовательно, для фиксированного \(x\) в сумме остаётся
+не более одного ненулевого слагаемого
+
+Положим
+\[k=\lfloor x\rfloor\]
+\[f_S(x)=
+\theta(1-\theta)^{k-1}f_\eta(x-k),
+\qquad k\le x\le k+1\]
+
+Если
+\[k\le x\le k+\theta,\]
+то
+\[0\le x-k\le\theta,\]
+и поэтому
+\[f_\eta(x-k)=\frac{2(x-k)}{\theta}.\]
+
+\[f_S(x)
+=\theta(1-\theta)^{k-1}
+\frac{2(x-k)}{\theta}
+=2(1-\theta)^{k-1}(x-k).\]
+
+Если же
+\[k+\theta < x\le k+1,\]
+то
+\[\theta < x-k\le1,\]
+и
+\[f_\eta(x-k)=\frac{2(1-x+k)}{1-\theta}.\]
+
+Тогда
+\[f_S(x)
+=
+\theta(1-\theta)^{k-1}\frac{2(1-x+k)}{1-\theta}\]
+
+\[\boxed{f_S(x)=
+\begin{cases}
+2(1-\theta)^{k-1}(x-k),
+&
+k\le x\le k+\theta,
+\\[10pt]
+\dfrac{2\theta(1-\theta)^{k-1}}{1-\theta}(1-x+k),
+&
+k+\theta < x\le k+1,
+\end{cases}}\]
+где
+\[k=\lfloor x\rfloor,\qquad k=1,2,\dots\]
+
+Следовательно, распределение суммы \(S=\xi+\eta\)
+является кусочно-линейным абсолютно непрерывным распределением
+
+\end{document}
